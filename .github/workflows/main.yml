@@ -55,3 +55,13 @@ jobs:
             sudo docker pull yumeko1/infra_actions
             sudo docker stop $(sudo docker ps -a -q)
             sudo docker run --rm -d -p 5000:5000 yumeko1/infra_actions
+  send_message:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: send message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrest.TELEGRAM_TOKEN }}
+          message: ${{ github.workflow }} успешно выполнен!
